@@ -1,22 +1,47 @@
-import { ITask } from '@/app/index';
-import { View } from 'react-native';
+import React from 'react';
+import { ITask } from '@/app';
+import { TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { TaskDialogue } from './TaskDialog';
 
 interface TaskProps {
   task: ITask;
 }
 
-export default function Task({ task }: TaskProps) {
+export default function Task({ task: initialTask }: TaskProps) {
+  const [task, setTask] = React.useState(initialTask);
+  const [showDialog, setShowDialog] = React.useState(false);
+
+  const handleSetChecked = () => {
+    const nextChecked = !task.isChecked;
+    setTask({ ...task, isChecked: nextChecked });
+  };
   return (
-    <View className="bg background flex flex-1 py-32">
-      <View className="flex flex-row">
-        <View className="items center flex w-16 justify-center"></View>
-        <Checkbox onCheckedChange={setChecked} checked={checked} className="border-2" />
-      </View>
-      <View className="border-foreground-transparent 1 flex border-b py-4"></View>
-      <Text className="text-foreground">Submit Assignment</Text>
-      <Text className="text-foreground-transparent">Due 20th Oct</Text>
-    </View>
+    <Dialog open={showDialog} onOpenChange={setShowDialog}>
+      <DialogTrigger asChild>
+        <TouchableOpacity className="flex w-full flex-row">
+          <View className="flex h-full w-24 px-8 py-5">
+            <Checkbox
+              className="border-foreground checked:bg-foreground"
+              checked={task.isChecked}
+              onCheckedChange={handleSetChecked}
+            />
+          </View>
+          <View className="border-foreground-transparent flex h-full flex-1 gap-1 border-b py-4">
+            <Text className="text-foreground text-xl">{task.title}</Text>
+            <Text className="text-foreground-transparent text-xl">{task.category}</Text>
+          </View>
+        </TouchableOpacity>
+      </DialogTrigger>
+
+      <TaskDialogue
+        task={task}
+        setTask={setTask}
+        setShowDialog={setShowDialog}
+        showDialog={showDialog}
+      />
+    </Dialog>
   );
 }

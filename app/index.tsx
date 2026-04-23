@@ -1,6 +1,6 @@
+import Task from '@/components/task';
 import { useState } from 'react';
 import { View } from 'react-native';
-import { Task } from '@/components/task';
 
 export interface ITask {
   title: string;
@@ -20,7 +20,7 @@ export default function HomeScreen() {
 
   return (
     <View className="bg background flex flex-1 py-32">
-      {/* This is where your new Task component is needed. How can you import it and then call it? */}
+      <Task task={task} />
     </View>
   );
 }
