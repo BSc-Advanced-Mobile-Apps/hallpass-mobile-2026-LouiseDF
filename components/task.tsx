@@ -3,8 +3,8 @@ import { ITask } from '@/app';
 import { TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { TaskDialogue } from './TaskDialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialogue';
+import { TaskDialogue } from './TaskDialogue';
 
 interface TaskProps {
   task: ITask;

@@ -9,19 +9,20 @@ import {
   DialogDescription,
   DialogFooter,
   DialogClose,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialogue';
 import { Input } from '@/components/ui/input';
 import { Text } from '@/components/ui/text';
 
 import { ITask } from '@/app';
 
 interface TaskDialogProps {
+  onSave?: (task: ITask) => void;
   task: ITask;
   setTask: (task: ITask) => void;
   setShowDialog: (showDialog: boolean) => void;
   showDialog: boolean;
 }
-function TaskDialogue({ task, setTask, setShowDialog, showDialog }: TaskDialogProps) {
+function TaskDialogue({ onSave, task, setTask, setShowDialog, showDialog }: TaskDialogProps) {
   const [editedTitle, setEditedTitle] = React.useState(task.title);
   const [editedCategory, setEditedCategory] = React.useState(task.category);
 
@@ -40,6 +41,13 @@ function TaskDialogue({ task, setTask, setShowDialog, showDialog }: TaskDialogPr
     };
 
     setTask(nextTask);
+    // If onSave is defined, call it and return early
+    if (onSave) {
+      onSave(nextTask);
+      return;
+    }
+    setEditedTitle('');
+    setEditedCategory('');
     setShowDialog(false);
   };
 
