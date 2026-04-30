@@ -11,6 +11,7 @@ interface AddTaskProps {
 
 export default function AddTask({ onAdd }: AddTaskProps) {
   const [showDialog, setShowDialog] = React.useState(false);
+  const [dialogKey, setDialogKey] = React.useState(0);
   const [task, setTask] = React.useState<{ title: string; category: string }>({
     title: '',
     category: '',
@@ -24,6 +25,13 @@ export default function AddTask({ onAdd }: AddTaskProps) {
     }
   };
 
+  // Reset dialog by changing key when it closes
+  React.useEffect(() => {
+    if (!showDialog) {
+      setDialogKey((prev) => prev + 1);
+    }
+  }, [showDialog]);
+
   return (
     <View className="absolute bottom-0 z-10">
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
@@ -36,6 +44,7 @@ export default function AddTask({ onAdd }: AddTaskProps) {
         </DialogTrigger>
 
         <TaskDialogue
+          key={dialogKey}
           task={{ id: 0, title: task.title, category: task.category, isChecked: false }}
           setTask={(newTask) => {
             setTask({ title: newTask.title, category: newTask.category });
