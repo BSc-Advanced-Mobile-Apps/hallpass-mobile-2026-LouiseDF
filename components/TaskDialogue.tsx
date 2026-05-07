@@ -54,8 +54,8 @@ function TaskDialogue({ onSave, task, setTask, setShowDialog, showDialog }: Task
   return (
     <DialogContent className="max-w-5/6">
       <DialogHeader>
-        <DialogTitle>Edit Task</DialogTitle>
-        <DialogDescription>Make changes to your task details here.</DialogDescription>
+        <DialogTitle>Add Task</DialogTitle>
+        <DialogDescription>Create a new task here.</DialogDescription>
       </DialogHeader>
 
       <View className="gap-4">
@@ -65,12 +65,12 @@ function TaskDialogue({ onSave, task, setTask, setShowDialog, showDialog }: Task
 
       <DialogFooter className="mt-4 flex flex-row gap-2">
         <Button
-          className="border-brand-primary flex-1 rounded-3xl border bg-transparent"
+          className="border-brand-primary flex-1w-1/2 rounded-3xl bg-transparent"
           onPress={() => setShowDialog(false)}>
           <Text className="text-brand-primary">Cancel</Text>
         </Button>
         <Button className="bg-brand-primary flex-1w-1/2 rounded-3xl" onPress={handleSave}>
-          <Text>Save changes</Text>
+          <Text>Add Task +</Text>
         </Button>
       </DialogFooter>
     </DialogContent>
