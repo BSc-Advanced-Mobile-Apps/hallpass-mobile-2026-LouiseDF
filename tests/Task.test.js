@@ -1,5 +1,6 @@
 import { render, screen, userEvent } from '@testing-library/react-native';
 import Task from '../components/Task';
+import { Dialog } from '@/components/ui/dialogue';
 
 describe('Task', () => {
   test('renders a task', () => {
@@ -51,5 +52,26 @@ describe('Task', () => {
     await user.press(checkbox);
 
     expect(checkbox).not.toBeChecked();
+  });
+
+  test('shows dialogue box when tapped', async () => {
+    const task = {
+      id: 1,
+      title: 'Test Task',
+      category: 'Test Category',
+      isChecked: false,
+    };
+    render(
+      <>
+        <Task task={task} />
+        <Dialog />
+      </>
+    );
+    await userEvent.setup().tap(screen.getByText('Test Task')); // Simulate tapping the task title
+
+    const dialogueTitle = await screen.findByText('Task Details'); // Assuming the dialogue has a title "Task Details"
+    expect(dialogueTitle).toBeTruthy();
+    const dialogue = screen.getByTestId('dialogue'); // Assuming the dialogue has a test ID "dialogue"
+    expect(dialogue).toBeTruthy();
   });
 });
