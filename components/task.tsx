@@ -1,17 +1,19 @@
 import React from 'react';
 import { ITask } from '@/app';
+import { Button } from './ui/button';
 import { TouchableOpacity, View } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogTrigger } from '@/components/ui/dialogue';
-import { TaskDialogue } from './TaskDialogue';
+import TaskDialogue from '@/components/TaskDialogue';
 
 export interface TaskProps {
   task: ITask;
   onUpdate?: (task: ITask) => void;
+  onDelete?: (id: number) => void;
 }
 
-export default function Task({ task: initialTask, onUpdate }: TaskProps) {
+export default function Task({ task: initialTask, onUpdate, onDelete }: TaskProps) {
   const [task, setTask] = React.useState(initialTask);
   const [showDialog, setShowDialog] = React.useState(false);
 
@@ -22,6 +24,13 @@ export default function Task({ task: initialTask, onUpdate }: TaskProps) {
       onUpdate(updatedTask);
     }
   };
+
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(task.id);
+    }
+  };
+
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
       <DialogTrigger asChild>
@@ -38,10 +47,14 @@ export default function Task({ task: initialTask, onUpdate }: TaskProps) {
             <Text className="text-foreground text-xl">{task.title}</Text>
             <Text className="text-foreground-transparent text-xl">{task.category}</Text>
           </View>
+          <Button onPress={handleDelete}>
+            <Text> Delete</Text>
+          </Button>
         </TouchableOpacity>
       </DialogTrigger>
 
       <TaskDialogue
+        onUpdate={onUpdate}
         task={task}
         setTask={setTask}
         setShowDialog={setShowDialog}

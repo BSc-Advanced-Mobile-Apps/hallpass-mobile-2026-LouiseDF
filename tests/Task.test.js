@@ -67,11 +67,14 @@ describe('Task', () => {
         <Dialog />
       </>
     );
-    await userEvent.setup().tap(screen.getByText('Test Task')); // Simulate tapping the task title
+    const taskTrigger = screen.getByTestId('task-trigger'); // Find the task trigger element
 
-    const dialogueTitle = await screen.findByText('Task Details'); // Assuming the dialogue has a title "Task Details"
-    expect(dialogueTitle).toBeTruthy();
-    const dialogue = screen.getByTestId('dialogue'); // Assuming the dialogue has a test ID "dialogue"
-    expect(dialogue).toBeTruthy();
+    expect(screen.queryByText('Edit Task')).toBeNull(); // Dialogue should not be visible initially
+
+    const user = userEvent.setup();
+    await user.press(taskTrigger); // Simulate pressing the task trigger
+
+    const dialogueHeader = await screen.findByText('Edit Task'); // Wait for the dialogue header to appear
+    expect(dialogueHeader).toBeTruthy(); // Check if the dialogue header is displayed
   });
 });

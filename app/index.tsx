@@ -1,6 +1,6 @@
-import Task from '@/components/Task';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import Task from '@/components/task';
 import { Text } from '@/components/ui/text';
 import { AddTask } from '@/components/AddTask';
 import React from 'react';
@@ -38,6 +38,8 @@ export default function HomeScreen() {
     loadTasks();
   }, []);
 
+  console.log({ tasks });
+
   // Save tasks to storage whenever they change
   const saveTasks = async (updatedTasks: ITask[]) => {
     try {
@@ -60,6 +62,12 @@ export default function HomeScreen() {
     saveTasks(updatedTasks);
   };
 
+  const handleDelete = (id: number) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    saveTasks(updatedTasks);
+  };
+
   return (
     <View className="bg-background flex flex-1 justify-between">
       <View className="flex flex-row justify-center">
@@ -75,7 +83,9 @@ export default function HomeScreen() {
         ) : tasks.length === 0 ? (
           <Text className="text-foreground text-center text-lg">Please add your first task...</Text>
         ) : (
-          tasks.map((task) => <Task key={task.id} task={task} onUpdate={handleTaskUpdate} />)
+          tasks.map((task) => (
+            <Task key={task.id} task={task} onUpdate={handleTaskUpdate} onDelete={handleDelete} />
+          ))
         )}
       </ScrollView>
       <View className="relative flex items-center">
