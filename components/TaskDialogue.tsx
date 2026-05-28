@@ -16,13 +16,21 @@ import { Text } from '@/components/ui/text';
 import { ITask } from '@/app';
 
 interface TaskDialogProps {
+  onDelete?: (task: ITask) => void;
   onSave?: (task: ITask) => void;
   task: ITask;
   setTask: (task: ITask) => void;
   setShowDialog: (showDialog: boolean) => void;
   showDialog: boolean;
 }
-function TaskDialogue({ onSave, task, setTask, setShowDialog, showDialog }: TaskDialogProps) {
+function TaskDialogue({
+  onSave,
+  task,
+  setTask,
+  setShowDialog,
+  showDialog,
+  onDelete,
+}: TaskDialogProps) {
   const [editedTitle, setEditedTitle] = React.useState(task.title);
   const [editedCategory, setEditedCategory] = React.useState(task.category);
 
@@ -38,6 +46,13 @@ function TaskDialogue({ onSave, task, setTask, setShowDialog, showDialog }: Task
       ...task,
       title: editedTitle,
       category: editedCategory,
+    };
+
+    const handleDelete = () => {
+      if (onDelete) {
+        onDelete(task);
+        setShowDialog(false);
+      }
     };
 
     setTask(nextTask);
@@ -71,6 +86,9 @@ function TaskDialogue({ onSave, task, setTask, setShowDialog, showDialog }: Task
         </Button>
         <Button className="bg-brand-primary flex-1w-1/2 rounded-3xl" onPress={handleSave}>
           <Text>Add Task +</Text>
+        </Button>
+        <Button className="w-1/2 flex-1 rounded-3xl bg-red-500" onPress={handleDelete}>
+          <Text>Delete</Text>
         </Button>
       </DialogFooter>
     </DialogContent>
