@@ -1,10 +1,9 @@
-import Task from '@/components/Task';
-import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
-import { Text } from '@/components/ui/text';
 import { AddTask } from '@/components/AddTask';
-import React from 'react';
+import Task from '@/components/task';
+import { Text } from '@/components/ui/text';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+import { ScrollView, View } from 'react-native';
 
 // Key for storing tasks in AsyncStorage
 const TASKS_STORAGE_KEY = 'hallpass_tasks';
@@ -60,6 +59,12 @@ export default function HomeScreen() {
     saveTasks(updatedTasks);
   };
 
+  const handleTaskDelete = (updatedTask: ITask) => {
+    const filteredTasks = tasks.filter((task) => task.id !== updatedTask.id);
+    setTasks(filteredTasks);
+    saveTasks(filteredTasks);
+  };
+
   return (
     <View className="bg-background flex flex-1 justify-between">
       <View className="flex flex-row justify-center">
@@ -79,7 +84,7 @@ export default function HomeScreen() {
         )}
       </ScrollView>
       <View className="relative flex items-center">
-        <AddTask onAdd={handleAddTask} />
+        <AddTask onAdd={handleAddTask} onDelete={handleTaskDelete} />
       </View>
     </View>
   );
