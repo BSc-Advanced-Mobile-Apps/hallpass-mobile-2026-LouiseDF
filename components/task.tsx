@@ -12,7 +12,7 @@ export interface TaskProps {
   onDelete?: (task: ITask) => void;
 }
 
-export default function Task({ task: initialTask, onUpdate }: TaskProps) {
+export default function Task({ task: initialTask, onUpdate, onDelete }: TaskProps) {
   const [task, setTask] = React.useState(initialTask);
   const [showDialog, setShowDialog] = React.useState(false);
 
@@ -23,6 +23,7 @@ export default function Task({ task: initialTask, onUpdate }: TaskProps) {
       onUpdate(updatedTask);
     }
   };
+
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
       <DialogTrigger asChild>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { GestureResponderEvent, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -41,18 +41,18 @@ function TaskDialogue({
     setEditedCategory(category);
   };
 
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete(task);
+      setShowDialog(false);
+    }
+  };
+
   const handleSave = () => {
     const nextTask = {
       ...task,
       title: editedTitle,
       category: editedCategory,
-    };
-
-    const handleDelete = () => {
-      if (onDelete) {
-        onDelete(task);
-        setShowDialog(false);
-      }
     };
 
     setTask(nextTask);
