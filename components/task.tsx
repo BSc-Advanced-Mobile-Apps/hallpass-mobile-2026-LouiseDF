@@ -48,6 +48,7 @@ export default function Task({ task: initialTask, onUpdate, onDelete }: TaskProp
         setShowDialog={setShowDialog}
         showDialog={showDialog}
         onDelete={onDelete}
+        onUpdate={onUpdate}
       />
     </Dialog>
   );

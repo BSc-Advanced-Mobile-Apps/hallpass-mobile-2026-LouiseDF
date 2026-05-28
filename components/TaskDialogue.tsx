@@ -18,12 +18,20 @@ import { ITask } from '@/app';
 interface TaskDialogProps {
   onSave?: (task: ITask) => void;
   onDelete?: (task: ITask) => void;
+  onUpdate?: (task: ITask) => void;
   task: ITask;
   setTask: (task: ITask) => void;
   setShowDialog: (showDialog: boolean) => void;
   showDialog: boolean;
 }
-function TaskDialogue({ onSave, onDelete, task, setTask, setShowDialog, showDialog }: TaskDialogProps) {
+function TaskDialogue({
+  onSave,
+  onDelete,
+  task,
+  setTask,
+  setShowDialog,
+  onUpdate,
+}: TaskDialogProps) {
   const [editedTitle, setEditedTitle] = React.useState(task.title);
   const [editedCategory, setEditedCategory] = React.useState(task.category);
 
@@ -45,6 +53,11 @@ function TaskDialogue({ onSave, onDelete, task, setTask, setShowDialog, showDial
     // If onSave is defined, call it and return early
     if (onSave) {
       onSave(nextTask);
+      return;
+    }
+    if (onUpdate) {
+      onUpdate(nextTask);
+      setShowDialog(false);
       return;
     }
     setEditedTitle('');
@@ -77,7 +90,7 @@ function TaskDialogue({ onSave, onDelete, task, setTask, setShowDialog, showDial
           onPress={() => setShowDialog(false)}>
           <Text className="text-brand-primary">Cancel</Text>
         </Button>
-        <Button className="bg-red-500 flex-1 w-1/2 rounded-3xl" onPress={handleDelete}>
+        <Button className="w-1/2 flex-1 rounded-3xl bg-red-500" onPress={handleDelete}>
           <Text>Delete</Text>
         </Button>
         <Button className="bg-brand-primary flex-1w-1/2 rounded-3xl" onPress={handleSave}>
