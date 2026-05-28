@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import Task from '@/components/task';
+import Task from '@/components/Task';
 import { Text } from '@/components/ui/text';
 import { AddTask } from '@/components/AddTask';
 import React from 'react';
